@@ -39,9 +39,9 @@ Users can submit public reviews for companies, browse reviews, and view aggregat
 ## Installation
 
 1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Clone this repository, open this folder
+2. Clone this repository
 3. Run `docker compose build --pull --no-cache` to build fresh images
-4. Run `docker compose up -d` to set up the Symfony project
+4. Run `docker compose up -d` to set up the container and the Symfony project
 5. Set up test database:
    - docker compose exec php php bin/console doctrine:migrations:migrate --env=test
    - docker compose exec php php bin/console doctrine:migrations:migrate
