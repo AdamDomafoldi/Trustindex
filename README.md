@@ -1,60 +1,86 @@
-# Symfony Docker
+# Trustindex – Company Review Mini Application
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
-
-Specially tailored for coding agents: ships with a [Dev Container](https://containers.dev/) configuration
-that lets [Claude Code](https://claude.ai/claude-code) (and other AI coding assistants) run in fully autonomous
-mode inside a sandboxed environment.
-
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
-
-## Getting Started
-
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up --wait` to set up and start a fresh Symfony project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+A Symfony 7 based mini review-aggregator web application inspired by real-world Trustindex functionality.  
+Users can submit public reviews for companies, browse reviews, and view aggregated company statistics including average ratings and review counts.
 
 ## Features
 
-- Production, development and CI ready
-- Just 1 service by default
-- Super-readable configuration
-- Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://frankenphp.dev/docs/worker/)
-- [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-- Automatic HTTPS (in dev and prod)
-- HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-- Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-- [Vulcain](https://vulcain.rocks) support
-- Native [XDebug](docs/xdebug.md) integration
-- [Hot Reloading](https://frankenphp.dev/docs/hot-reload/)
-- [Dev Container](https://containers.dev/) support, optimized for AI coding agents
-- [AI coding agents](docs/agents.md) with sandboxing out of the box
-- Rootless, slim production image
+- Submit public company reviews
+- Symfony Forms + Validation
+- Review listing with star ratings
+- Detailed review pages
+- Company statistics page with:
+  - average rating
+  - review count
+  - sorting by highest rated companies
+- Doctrine ORM with migrations
+- Repository-based query logic
+- PHPUnit unit and functional tests
+- Bootstrap based responsive UI
+- Clean Code + DRY principles
 
-**Enjoy!**
+## Tech Stack
 
-## Docs
+- PHP 8.2+
+- Symfony 7
+- Doctrine ORM
+- Twig
+- PHPUnit
+- Docker
+- PostgreSQL
 
-1. [Options available](docs/options.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using MySQL instead of PostgreSQL](docs/mysql.md)
-8. [Using Alpine Linux instead of Debian](docs/alpine.md)
-9. [Using a Makefile](docs/makefile.md)
-10. [Updating the template](docs/updating.md)
-11. [Troubleshooting](docs/troubleshooting.md)
-12. [Using AI Coding Agents](docs/agents.md)
+## Extra Features
 
-## License
+- Company name search
+- Responsive modern UI
+- Dockerized development environment
+- Automatic timestamps (`created_at`, `updated_at`)
 
-Symfony Docker is available under the MIT License.
+## Installation
+
+1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
+2. Run `docker compose build --pull --no-cache` to build fresh images
+3. Run `docker compose up -d` to set up and start a fresh Symfony project
+4. Set up test database:
+   - docker compose exec php php bin/console doctrine:migrations:migrate --env=test
+   - docker compose exec php php bin/console doctrine:migrations:migrate
+5. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
+
+
+
+## Working Diary
+
+| Task | Description | Time Spent |
+|---|---|---|
+| Project initialization | Symfony project setup, Docker environment configuration, dependency installation, repository initialization | 35 min |
+| Database configuration | PostgreSQL configuration, Doctrine setup, environment variables, database connection troubleshooting | 20 min |
+| Review entity implementation | Created Review entity with PHP attribute Doctrine mapping, timestamps, validation rules | 35 min |
+| Doctrine migrations | Generated and executed database migrations, configured test database | 15 min |
+
+| Review repository | Implemented custom ReviewRepository methods for statistics, aggregation and sorting logic | 30 min |
+
+| Review submission form | Implemented Symfony Form (ReviewType), validation handling, flash messages | 30 min |
+
+| Review listing page | Created homepage review listing with Twig templates, Bootstrap styling and star ratings | 35 min |
+
+| Review details page | Implemented detailed review page with dedicated route and controller action | 15 min |
+
+| Company statistics page | Implemented `/companies` page with aggregated review counts and average ratings | 30 min |
+
+| Search functionality | Added company name search functionality with filtering using javascript | 20 min |
+
+| UI improvements | Responsive layout, reusable Twig components, base layout cleanup, UX improvements | 30 min |
+| Automated timestamps | Added automatic `created_at` and `updated_at` handling | 10 min |
+| Unit testing | Implemented repository unit test for rating validation | 25 min |
+| Functional testing | Implemented functional tests for review submission and page rendering | 25 min |
+| Integrational testing | Implemented integrational test for average rate calculation | 25 min |
+
+| Documentation | README creation, setup instructions, command documentation, working diary | 20 min |
+
+### Total Estimated Time
+
+**~6 hours**
 
 ## Credits
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+Original docker container created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
