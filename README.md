@@ -42,14 +42,11 @@ Users can submit public reviews for companies, browse reviews, and view aggregat
 2. Clone this repository
 3. Run `docker compose build --pull --no-cache` to build fresh images
 4. Run `docker compose up -d` to set up the container and the Symfony project
-5. Set up database
-  - docker compose exec php php bin/console doctrine:database:create
-  - docker compose exec php php bin/console doctrine:migrations:migrate
-7. Set up test database:
+5. Set up test database:
    - docker compose exec php php bin/console doctrine:migrations:migrate --env=test
    - docker compose exec php php bin/console doctrine:migrations:migrate
-8. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-9. Run tests: docker compose exec php php bin/phpunit
+6. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
+7. Run tests: docker compose exec php php bin/phpunit
 
 
 
