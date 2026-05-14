@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cégek statisztikái{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">Cégek statisztikái</h1>
+                <p class="text-muted mb-0">
+                    Vélemények és átlagos értékelések
+                </p>
+            </div>
+
+            <a href="{{ path('app_review') }}" class="btn btn-outline-dark">
+                Vissza
+            </a>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-0">
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th class="px-4 py-3">Cég</th>
+                            <th class="px-4 py-3">Vélemények száma</th>
+                            <th class="px-4 py-3">Átlagos értékelés</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for company in companies %}
+                            <tr>
+                                <td class="px-4 py-3 fw-semibold">
+                                    {{ company.companyName }}
+                                </td>
+
+                                <td class="px-4 py-3">
+                                    {{ company.reviewCount }}
+                                </td>
+
+                                <td class="px-4 py-3">
+                                <span class="badge bg-dark rounded-pill">
+                                    {{ company.averageRating|number_format(1) }}/5
+                                </span>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3" class="text-center py-4 text-muted">
+                                    Nincs adat.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
