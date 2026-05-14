@@ -5,8 +5,12 @@ namespace App\Entity;
 use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ReviewRepository::class)]
+#[Assert\Callback('validateRating')]
 class Review
 {
     #[ORM\Id]
@@ -15,24 +19,24 @@ class Review
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $company_name = null;
+    private ?string $companyName = null;
 
     #[Assert\Range(min: 1, max: 5)]
     #[ORM\Column]
     private ?int $rating = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $review_text = null;
+    private ?string $reviewText = null;
 
     #[Assert\Email]
     #[ORM\Column(length: 255)]
-    private ?string $author_email = null;
+    private ?string $authorEmail = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -41,12 +45,12 @@ class Review
 
     public function getCompanyName(): ?string
     {
-        return $this->company_name;
+        return $this->companyName;
     }
 
-    public function setCompanyName(string $company_name): static
+    public function setCompanyName(string $companyName): static
     {
-        $this->company_name = $company_name;
+        $this->companyName = $companyName;
 
         return $this;
     }
@@ -65,48 +69,48 @@ class Review
 
     public function getReviewText(): ?string
     {
-        return $this->review_text;
+        return $this->reviewText;
     }
 
-    public function setReviewText(string $review_text): static
+    public function setReviewText(string $reviewText): static
     {
-        $this->review_text = $review_text;
+        $this->reviewText = $reviewText;
 
         return $this;
     }
 
     public function getAuthorEmail(): ?string
     {
-        return $this->author_email;
+        return $this->authorEmail;
     }
 
-    public function setAuthorEmail(string $author_email): static
+    public function setAuthorEmail(string $authorEmail): static
     {
-        $this->author_email = $author_email;
+        $this->authorEmail = $authorEmail;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -115,5 +119,23 @@ class Review
     public function onPreUpdate(): void
     {
         $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function onPrePersist(): void
+    {
+        $now = new \DateTimeImmutable();
+
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
+    }
+
+    public function validateRating(ExecutionContextInterface $context): void
+    {
+        if ($this->rating === null || $this->rating < 1 || $this->rating > 5) {
+            $context->buildViolation('A rating must be between 1 and 5.')
+                ->atPath('rating')
+                ->addViolation();
+        }
     }
 }
