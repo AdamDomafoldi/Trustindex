@@ -14,7 +14,7 @@ use App\Repository\ReviewRepository;
 
 final class ReviewController extends AbstractController
 {
-    #[Route('/review', name: 'app_review')]
+    #[Route('/', name: 'app_review')]
     public function index(ReviewRepository $reviewRepository): Response
     {
         return $this->render('review/index.html.twig', [

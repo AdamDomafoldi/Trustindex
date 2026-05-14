@@ -10,7 +10,7 @@ class ReviewControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $client->request('GET', '/review');
+        $client->request('GET', '/');
 
         self::assertResponseIsSuccessful();
 
