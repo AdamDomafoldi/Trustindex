@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ review.companyName }}{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">
+                    {{ review.companyName }}
+                </h1>
+
+                <p class="text-muted mb-0">
+                    Vélemény részletei
+                </p>
+            </div>
+
+            <a href="{{ path('app_review') }}"
+               class="btn btn-outline-dark">
+                Vissza
+            </a>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-md-5">
+
+                <div class="mb-4 text-warning fs-3">
+                    {% for i in 1..5 %}
+                        {% if i <= review.rating %}
+                            ★
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="fw-semibold mb-3">
+                        Vélemény
+                    </h5>
+
+                    <p class="text-muted fs-5 mb-0"
+                       style="white-space: pre-line;">
+                        {{ review.reviewText }}
+                    </p>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row g-4">
+
+                    <div class="col-12 col-md-4">
+                        <div class="text-muted small mb-1">
+                            Beküldő email
+                        </div>
+
+                        <div class="fw-semibold">
+                            {{ review.authorEmail }}
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="text-muted small mb-1">
+                            Létrehozva
+                        </div>
+
+                        <div class="fw-semibold">
+                            {{ review.createdAt|date('Y-m-d H:i') }}
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="text-muted small mb-1">
+                            Utoljára módosítva
+                        </div>
+
+                        <div class="fw-semibold">
+                            {{ review.updatedAt|date('Y-m-d H:i') }}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

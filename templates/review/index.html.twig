@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vélemények{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success rounded-4 shadow-sm border-0">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">Vélemények</h1>
+                <p class="text-muted mb-0">
+                    Felhasználói visszajelzések cégekről
+                </p>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="{{ path('companies') }}" class="btn btn-outline-dark">
+                    Cégstatisztikák
+                </a>
+
+                <a href="{{ path('review_new') }}" class="btn btn-dark">
+                    Új vélemény
+                </a>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-3 p-md-4">
+                <label for="companyFilter" class="form-label fw-semibold">
+                    Cég keresése
+                </label>
+
+                <input
+                    type="text"
+                    id="companyFilter"
+                    class="form-control form-control-lg rounded-3"
+                    placeholder="Kezdj el gépelni egy cégnevet..."
+                >
+            </div>
+        </div>
+
+        <div class="row g-4" id="reviewsContainer">
+            {% for review in reviews %}
+                <div
+                    class="col-12 col-md-6 col-lg-4 review-card"
+                    data-company="{{ review.companyName|lower }}"
+                >
+                    <div class="card h-100 border-0 shadow-sm rounded-4">
+                        <div class="card-body p-4">
+                            <h2 class="h5 fw-semibold mb-2">
+                                {{ review.companyName }}
+                            </h2>
+
+                            <div class="mb-3 text-warning fs-5">
+                                {% for i in 1..5 %}
+                                    {% if i <= review.rating %}
+                                        ★
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <p class="text-muted">
+                                {{ review.reviewText|length > 150
+                                ? review.reviewText|slice(0, 150) ~ '...'
+                                : review.reviewText }}
+                            </p>
+
+                            <div class="d-flex justify-content-between align-items-end mt-4">
+
+                                <div>
+                                    <div class="small text-muted">
+                                        Létrehozva:
+                                        {{ review.createdAt|date('Y-m-d H:i') }}
+                                    </div>
+
+                                    <div class="small text-muted">
+                                        Utoljára módosítva:
+                                        {{ review.updatedAt|date('Y-m-d H:i') }}
+                                    </div>
+                                </div>
+
+                                <a href="{{ path('review_view', { id: review.id }) }}"
+                                   class="btn btn-sm btn-outline-dark">
+                                    Részletek
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-light border rounded-4">
+                        Még nincs vélemény.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <script>
+        const filterInput = document.getElementById('companyFilter');
+        const reviewCards = document.querySelectorAll('.review-card');
+
+        filterInput.addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase().trim();
+
+            reviewCards.forEach(card => {
+                const companyName = card.dataset.company;
+
+                card.style.display = companyName.includes(searchValue)
+                    ? ''
+                    : 'none';
+            });
+        });
+    </script>
+{% endblock %}
