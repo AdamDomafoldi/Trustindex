@@ -1,38 +1,20 @@
-# Symfony Docker
+# Trustindex interview task
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
 
-Specially tailored for coding agents: ships with a [Dev Container](https://containers.dev/) configuration
-that lets [Claude Code](https://claude.ai/claude-code) (and other AI coding assistants) run in fully autonomous
-mode inside a sandboxed environment.
-
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
 
 ## Getting Started
 
 1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
 2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up --wait` to set up and start a fresh Symfony project
+3. Run `docker compose up -d` to set up and start a fresh Symfony project
 4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+6. Set up test database:
+   - docker compose exec php php bin/console doctrine:migrations:migrate --env=test
+   - docker compose exec php php bin/console doctrine:migrations:migrate
 
 ## Features
 
-- Production, development and CI ready
-- Just 1 service by default
-- Super-readable configuration
-- Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://frankenphp.dev/docs/worker/)
-- [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-- Automatic HTTPS (in dev and prod)
-- HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-- Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-- [Vulcain](https://vulcain.rocks) support
-- Native [XDebug](docs/xdebug.md) integration
-- [Hot Reloading](https://frankenphp.dev/docs/hot-reload/)
-- [Dev Container](https://containers.dev/) support, optimized for AI coding agents
-- [AI coding agents](docs/agents.md) with sandboxing out of the box
-- Rootless, slim production image
+
 
 **Enjoy!**
 
