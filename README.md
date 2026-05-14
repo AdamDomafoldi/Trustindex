@@ -45,7 +45,6 @@ Users can submit public reviews for companies, browse reviews, and view aggregat
 5. Set up test database:
    - docker compose exec php php bin/console doctrine:database:create --env=test
    - docker compose exec php php bin/console doctrine:migrations:migrate --env=test
-   - docker compose exec php php bin/console doctrine:migrations:migrate
 7. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
 8. Run tests: docker compose exec php php bin/phpunit
 
